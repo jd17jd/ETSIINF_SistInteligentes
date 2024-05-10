@@ -13,7 +13,7 @@ public class ResultadoAnalisis implements Serializable {
 	J48 clasificadorJ48;
 	IBk clasificadorKnn;
 
-//AÑADIR más tipos de clasificadores AQUI
+	//AÑADIR más tipos de clasificadores AQUI
 	protected Instances getInstances() {
 		return data;
 	}

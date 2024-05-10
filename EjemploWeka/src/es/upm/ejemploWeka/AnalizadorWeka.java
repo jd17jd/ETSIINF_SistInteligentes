@@ -107,10 +107,10 @@ public class AnalizadorWeka extends Agent {
 				clasificadorJ48.setUnpruned(true);
 				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
 				data.setClassIndex(data.numAttributes() - 1);
-//Construimos el clasificador
+				//Construimos el clasificador
 				clasificadorJ48.buildClassifier(data);
-//Si solo tenemos el conjunto de entrenemiento y no de test, hacemos validación cruzada 
-//No debemos crear el clasificador previamente para evitar sesgos. Lo hemos creado para enviarlo en el resultado
+				//Si solo tenemos el conjunto de entrenemiento y no de test, hacemos validación cruzada 
+				//No debemos crear el clasificador previamente para evitar sesgos. Lo hemos creado para enviarlo en el resultado
 				Evaluation evalJ48 = new Evaluation(data);
 				evalJ48.crossValidateModel(clasificadorJ48_2, data, 10, new Random(1));
 				resultado.setClasificadorJ48(clasificadorJ48);
@@ -135,8 +135,8 @@ public class AnalizadorWeka extends Agent {
 				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
 				data.setClassIndex(data.numAttributes() - 1);
 				clasificadorKnn.buildClassifier(data);
-//Si solo tenemos el conjunto de entrenemiento y no de test, hacemos validación cruzada
-//No debemos crear el clasificador previamente para evitar sesgos. Lo hemos creado para enviarlo en el resultado
+				//Si solo tenemos el conjunto de entrenemiento y no de test, hacemos validación cruzada
+				//No debemos crear el clasificador previamente para evitar sesgos. Lo hemos creado para enviarlo en el resultado
 				Evaluation evalKNN = new Evaluation(data);
 				evalKNN.crossValidateModel(clasificadorKnn_2, data, 10, new Random(1));
 				resultado.setClasificadorKnn(clasificadorKnn);
@@ -145,7 +145,7 @@ public class AnalizadorWeka extends Agent {
 				System.out.println("Evaluación: " + resultado.getEvaluation().toSummaryString() + "\n\n"
 						+ resultado.getClasificadorKnn().toString());
 				msg1.setContentObject((Serializable) resultado);
-// Envío del mensaje al agente con el resultado obtenido
+				// Envío del mensaje al agente con el resultado obtenido
 				this.myAgent.send(msg1);
 			} catch (Exception e) {
 				e.printStackTrace();

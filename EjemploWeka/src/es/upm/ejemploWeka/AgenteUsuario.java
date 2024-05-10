@@ -14,7 +14,8 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 public class AgenteUsuario extends Agent {
-//Métodos de clasificación que vamos a utilizar en este ejemplo: árbol de decisión J48 y clustering KNN
+	//Métodos de clasificación que vamos a utilizar en este ejemplo: árbol de decisión J48 y clustering KNN
+	//arbol decision + k-nearest neighbour (vecino mas cercano) para clustering
 	static final int _J48 = 0;
 	static final int _KNN = 6;
 	private File fichero;
@@ -23,36 +24,36 @@ public class AgenteUsuario extends Agent {
 	JFrameSeleccionar ventana;
 
 	protected void setup() {
-//Añadimos los comportamientos cíclicos para Solicitar análisis al analizador y para Mostrar resultados al usuario
+		//Añadimos los comportamientos cíclicos para Solicitar análisis al analizador y para Mostrar resultados al usuario
 		addBehaviour(new CyclicBehaviourSolicitarAnalisis());
 		addBehaviour(new CyclicBehaviourMostrarResultados());
-//Lanzamos el interfaz en un hilo de ejecución independiente --> Creamos un MainGUI, que a su vez crea un JFrame principal para el agente
+		//Lanzamos el interfaz en un hilo de ejecución independiente --> Creamos un MainGUI, que a su vez crea un JFrame principal para el agente
 		MainGUI gui = new MainGUI(this.getLocalName(), this);
 		gui.run();
 	}
 
-//Comportamiento cíclico para solicitor la realización de análisis de los datos
+	//Comportamiento cíclico para solicitor la realización de análisis de los datos
 	public class CyclicBehaviourSolicitarAnalisis extends CyclicBehaviour {
 		private static final long serialVersionUID = 1L;
 
 		public void action() {
 			try {
-//El agente de usuario espera a que el usuario haya seleccionado método de clasificación y un fichero
+				//El agente de usuario espera a que el usuario haya seleccionado método de clasificación y un fichero
 				myAgent.doWait();
-//Desde el interfaz de usuario el usuario ha pulsado el botón Enviar y podemos continuar
+				//Desde el interfaz de usuario el usuario ha pulsado el botón Enviar y podemos continuar
 				System.out.println("Continuando ...");
-//Definimos un objeto DatosAnalizar que sea serializable y que contenga
-//método de clasificación a aplicar que ha seleccionado el usuario en el interfaz
-//fichero a analizar que ha cargado el usuario en el interfaz
+				//Definimos un objeto DatosAnalizar que sea serializable y que contenga
+				//método de clasificación a aplicar que ha seleccionado el usuario en el interfaz
+				//fichero a analizar que ha cargado el usuario en el interfaz
 				DatosAnalizar datosAnalizar = new DatosAnalizar();
 				datosAnalizar.setFile(fichero);
 				datosAnalizar.setMethod(metodo_clasificacion);
-//Enviamos el mensaje de solicitud de clasificación al agente Análisis
-//Buscar el agente en el directorio de Servicios
-//Utilizamos la función de envío definida en Utils
-//Crea un mensaje de tipo REQUEST
-//Lo envía a los agentes que tienen registrado el servicio "analisis"
-//Como contenido se pasa el objeto analizar 
+				//Enviamos el mensaje de solicitud de clasificación al agente Análisis
+				//Buscar el agente en el directorio de Servicios
+				//Utilizamos la función de envío definida en Utils
+				//Crea un mensaje de tipo REQUEST
+				//Lo envía a los agentes que tienen registrado el servicio "analisis"
+				//Como contenido se pasa el objeto analizar 
 				Utils.enviarMensaje(this.myAgent, "analisis", datosAnalizar);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -60,18 +61,18 @@ public class AgenteUsuario extends Agent {
 		}
 	}
 
-//Comportamiento cíclico para mostrar los resultados al usuario
+	//Comportamiento cíclico para mostrar los resultados al usuario
 	public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
 		private static final long serialVersionUID = 1L;
 
 		public void action() {
-//Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
+			//Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
 			ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
 			try {
-//Recibimos los datos a analizar, que vienen en el mensaje del agente AnalizadorWeka como un objeto ResultadoAnalisis
+				//Recibimos los datos a analizar, que vienen en el mensaje del agente AnalizadorWeka como un objeto ResultadoAnalisis
 				ResultadoAnalisis resultadoAnalisis = new ResultadoAnalisis();
 				resultadoAnalisis = (ResultadoAnalisis) msg1.getContentObject();
-//Mostramos al usuario el resultado obtenido en la pantalla en la JTextArea
+				//Mostramos al usuario el resultado obtenido en la pantalla en la JTextArea
 				JTextArea textArea = new JTextArea();
 				if (metodo_clasificacion.equals("J48")) {
 					String j48 = textArea.getText()
@@ -86,15 +87,15 @@ public class AgenteUsuario extends Agent {
 							+ resultadoAnalisis.getClasificadorKnn().toString();
 					textArea.setText(knn);
 				}
-//Creamos una ventana para mostrar los resultados obtenidos. Lo podemos hacer por ejemplo con un JOptionPane
-//Y le ponemos un scroll para desplazarnos porque puede haber muchos resultados
+				//Creamos una ventana para mostrar los resultados obtenidos. Lo podemos hacer por ejemplo con un JOptionPane
+				//Y le ponemos un scroll para desplazarnos porque puede haber muchos resultados
 				JScrollPane scrollPane = new JScrollPane(textArea);
 				textArea.setLineWrap(true);
 				textArea.setWrapStyleWord(true);
 				scrollPane.setPreferredSize(new Dimension(800, 800));
 				JOptionPane.showMessageDialog(null, scrollPane, "Resultados Analisis WEKA",
 						JOptionPane.INFORMATION_MESSAGE);
-//Limpiamos metodos_clasificación para que pase a estar vacío cuando el usuario haga una nueva solicitud
+				//Limpiamos metodos_clasificación para que pase a estar vacío cuando el usuario haga una nueva solicitud
 				metodo_clasificacion = "";
 			} catch (Exception e) {
 				e.printStackTrace();
