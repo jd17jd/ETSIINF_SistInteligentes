@@ -26,6 +26,7 @@ public class AnalizadorWeka extends Agent {
 	private static final long serialVersionUID = 1L;
 	static final int _J48 = 0;
 	static final int _KNN = 6;
+	
 	protected ResultadoAnalisis resultado;
 	File fichero;
 	protected CyclicBehaviourAnalisisWEKA comportamientoWEKA = new CyclicBehaviourAnalisisWEKA();
@@ -73,25 +74,26 @@ public class AnalizadorWeka extends Agent {
 					System.out.println();
 					System.out.println(myAgent.getLocalName() + ": Recibo el mensaje: \n" + msg);
 					try {
-						//Recibimos los datos a analizar, que vienen en el mensaje
+//Recibimos los datos a analizar, que vienen en el mensaje
 						DatosAnalizar analizar = new DatosAnalizar();
 						analizar = (DatosAnalizar) msg.getContentObject();
-						//Extraemos el fichero y el método de clasificación de los datos a analizar
+//Extraemos el fichero y el método de clasificación de los datos a analizar
 						fichero = analizar.getFile();
-						String metodo = analizar.getMethod();
 						
-						//Lanzamos el comportamiento correspondiente al método de clasificación que haya seleccionado el usuario
+
+						String metodo = analizar.getMethod();
+//Lanzamos el comportamiento correspondiente al método de clasificación que haya seleccionado el usuario
 						if (metodo.equals("J48")) {
 							OneShotBehaviour b1 = new ComportamientoJ48();
 							myAgent.addBehaviour(b1);
 						} else if (metodo.equals("KNN")) {
 							OneShotBehaviour b2 = new ComportamientoKnn();
 							myAgent.addBehaviour(b2);
-						} else if(metodo.equals("Reg_Logistica")) {
-							OneShotBehaviour b3 = new ComportamientoRegLineal();
+						}
+						else if (metodo.equals("Logistic")) {
+							OneShotBehaviour b3 = new ComportamientoLogistic();
 							myAgent.addBehaviour(b3);
 						}
-						
 						msg1 = msg.createReply();
 						msg1.addReceiver(msg.getSender());
 						msg1.setPerformative(ACLMessage.INFORM);
@@ -111,7 +113,7 @@ public class AnalizadorWeka extends Agent {
 				System.out.println("Entro en comportamiento J48");
 				J48 clasificadorJ48 = new J48();
 				J48 clasificadorJ48_2 = new J48();
-				//clasificadorJ48.setUnpruned(true);
+				clasificadorJ48.setUnpruned(true);
 				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
 				data.setClassIndex(data.numAttributes() - 1);
 				//Construimos el clasificador
@@ -160,41 +162,29 @@ public class AnalizadorWeka extends Agent {
 		}
 	}
 	
-	
-	public class ComportamientoRegLineal extends OneShotBehaviour {
-		public void action() {
-			try {
-				Logistic clasificadorLogistic = new Logistic();
-				Logistic clasificadorLogistic_2 = new Logistic();
-				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
-				data.setClassIndex(data.numAttributes() - 1);
-				clasificadorLogistic.buildClassifier(data);
-				
-				//Validacion cruzada
-				Evaluation evalLogistic = new Evaluation(data);
-	            evalLogistic.crossValidateModel(clasificadorLogistic_2, data, 10, new Random(1));
-	            
-	            resultado.setClasificadorLogistic(clasificadorLogistic);
-	            resultado.setEvaluation(evalLogistic);
+	public class ComportamientoLogistic extends OneShotBehaviour {
+	    public void action() {
+	        try {
+	            Logistic clasificadorLogistico = new Logistic();
+	            Logistic clasificadorLogistico_2 = new Logistic();
+	            Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
+	            data.setClassIndex(data.numAttributes() - 1);
+	            clasificadorLogistico.buildClassifier(data);
+	            // Si solo tenemos el conjunto de entrenamiento y no de test, hacemos validación cruzada
+	            // No debemos crear el clasificador previamente para evitar sesgos. Lo hemos creado para enviarlo en el resultado
+	            Evaluation evalLogistica = new Evaluation(data);
+	            evalLogistica.crossValidateModel(clasificadorLogistico_2, data, 10, new Random(1));
+	            resultado.setClasificadorLogistic(clasificadorLogistico);
+	            resultado.setEvaluation(evalLogistica);
 	            resultado.setInstances(data);
-	            System.out.println("Evaluacion: " + resultado.getEvaluation().toSummaryString() + "\n\n" + 
-	            		resultado.getClasificadorLogistic().toString());
+	            System.out.println("Evaluación: " + resultado.getEvaluation().toSummaryString() + "\n\n"
+	                    + resultado.getClasificadorLogistic().toString());
 	            msg1.setContentObject((Serializable) resultado);
+	            // Envío del mensaje al agente con el resultado obtenido
 	            this.myAgent.send(msg1);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

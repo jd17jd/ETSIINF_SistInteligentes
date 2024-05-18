@@ -14,11 +14,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import javax.swing.JFileChooser;
-
 
 public class Utils
 {
@@ -129,51 +124,6 @@ public class Utils
 	}
 	
 	
-	/** Env�a un objeto desde el agente indicado a un agente que proporciona un servicio del tipo dado
-	* @param agent Agente desde el que se va a enviar el servicio
-	* @param tipo Tipo del servicio buscado
-	* @param objeto Mensaje a Enviar */
-	public static File abrirFichero(String ruta)
-	{
-        Scanner entrada = null;
-        File f = new File(ruta);
-
-        try 
-        {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.showOpenDialog(fileChooser);   
-            
-  //Ver si cambiar con el par�metro que nos pasan como ruta
-            String ruta2 = fileChooser.getSelectedFile().getAbsolutePath();
-            f = new File(ruta2);                                                  
-            entrada = new Scanner(f);
-            while (entrada.hasNext()) 
-            {
-                System.out.println(entrada.nextLine());
-            }
-        } catch (FileNotFoundException e) 
-          {
-            System.out.println(e.getMessage());
-          } 
-          catch (NullPointerException e) 
-          {
-            System.out.println("No se ha seleccionado ning�n fichero");
-          } 
-          catch (Exception e) 
-          {
-            System.out.println(e.getMessage());
-          } 
-          finally 
-          {
-            if (entrada != null) 
-            {
-       //     	return entrada;
-       //         entrada.close();
-            	System.out.println("Fichero enviado");
-            }
-        }
-       return f; 
-	}
 	
 	public static void limpiarClasificacion(boolean [] clasificacion, int i)
 	{

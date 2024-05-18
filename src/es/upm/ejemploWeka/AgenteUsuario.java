@@ -19,6 +19,7 @@ public class AgenteUsuario extends Agent {
 	
 	static final int _J48 = 0;
 	static final int _KNN = 6;
+	
 	private File fichero;
 	private String metodo_clasificacion;
 	JFramePrincipal principal;
@@ -110,21 +111,20 @@ public class AgenteUsuario extends Agent {
 							+ "KNN: \n" + resultadoAnalisis.getEvaluation().toSummaryString() + "\n\n"
 							+ resultadoAnalisis.getClasificadorKnn().toString();
 					textArea.setText(knn);
-					
-				} else if(metodo_clasificacion.equals("Reg_Logistica")) {
-					String regLog = textArea.getText()
-							+ "\n\n Resultado del análisis con WEKA utilizando el algoritmo de Regresión Logística "
+				} else if (metodo_clasificacion.equals("Logistic")) {
+					String logistic = textArea.getText()
+							+ "\n\n Resultado del análisis con WEKA utilizando el algoritmo de clasificación"
 							+ "Logistic: \n" + resultadoAnalisis.getEvaluation().toSummaryString() + "\n\n"
 							+ resultadoAnalisis.getClasificadorLogistic().toString();
-					textArea.setText(regLog);
+					textArea.setText(logistic);
+					
 				}
-				
 				
 				//Creamos una ventana para mostrar los resultados obtenidos y le ponemos un scroll para desplazarnos porque puede haber muchos resultados
 				JScrollPane scrollPane = new JScrollPane(textArea);
 				textArea.setLineWrap(true);
 				textArea.setWrapStyleWord(true);
-				scrollPane.setPreferredSize(new Dimension(800, 800));
+				scrollPane.setPreferredSize(new Dimension(700, 700));
 				JOptionPane.showMessageDialog(null, scrollPane, "Resultados Analisis WEKA",
 						JOptionPane.INFORMATION_MESSAGE);
 				

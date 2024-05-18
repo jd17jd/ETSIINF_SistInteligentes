@@ -51,7 +51,7 @@ public class ResultadoAnalisis implements Serializable {
 	protected Logistic getClasificadorLogistic() {
 		return clasificadorLogistic;
 	}
-
+	
 	protected void setClasificadorLogistic(Logistic logistic) {
 		clasificadorLogistic = logistic;
 	}
