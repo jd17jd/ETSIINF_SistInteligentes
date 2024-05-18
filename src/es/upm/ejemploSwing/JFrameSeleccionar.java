@@ -47,6 +47,7 @@ public class JFrameSeleccionar extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.addItem("J48");
 		comboBox.addItem("KNN");
+		comboBox.addItem("Reg_Logistica");
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(33, 239, 351, 43);
 		contentPane.add(textArea);

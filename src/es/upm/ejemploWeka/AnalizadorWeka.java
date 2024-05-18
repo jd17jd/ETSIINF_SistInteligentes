@@ -15,12 +15,14 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.core.behaviours.OneShotBehaviour;
 import weka.classifiers.evaluation.Evaluation;
+import weka.classifiers.functions.Logistic;
 import weka.classifiers.trees.J48;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import java.io.File;
 
 public class AnalizadorWeka extends Agent {
+	
 	private static final long serialVersionUID = 1L;
 	static final int _J48 = 0;
 	static final int _KNN = 6;
@@ -71,20 +73,25 @@ public class AnalizadorWeka extends Agent {
 					System.out.println();
 					System.out.println(myAgent.getLocalName() + ": Recibo el mensaje: \n" + msg);
 					try {
-//Recibimos los datos a analizar, que vienen en el mensaje
+						//Recibimos los datos a analizar, que vienen en el mensaje
 						DatosAnalizar analizar = new DatosAnalizar();
 						analizar = (DatosAnalizar) msg.getContentObject();
-//Extraemos el fichero y el método de clasificación de los datos a analizar
+						//Extraemos el fichero y el método de clasificación de los datos a analizar
 						fichero = analizar.getFile();
 						String metodo = analizar.getMethod();
-//Lanzamos el comportamiento correspondiente al método de clasificación que haya seleccionado el usuario
+						
+						//Lanzamos el comportamiento correspondiente al método de clasificación que haya seleccionado el usuario
 						if (metodo.equals("J48")) {
 							OneShotBehaviour b1 = new ComportamientoJ48();
 							myAgent.addBehaviour(b1);
 						} else if (metodo.equals("KNN")) {
 							OneShotBehaviour b2 = new ComportamientoKnn();
 							myAgent.addBehaviour(b2);
+						} else if(metodo.equals("Reg_Logistica")) {
+							OneShotBehaviour b3 = new ComportamientoRegLineal();
+							myAgent.addBehaviour(b3);
 						}
+						
 						msg1 = msg.createReply();
 						msg1.addReceiver(msg.getSender());
 						msg1.setPerformative(ACLMessage.INFORM);
@@ -104,7 +111,7 @@ public class AnalizadorWeka extends Agent {
 				System.out.println("Entro en comportamiento J48");
 				J48 clasificadorJ48 = new J48();
 				J48 clasificadorJ48_2 = new J48();
-				clasificadorJ48.setUnpruned(true);
+				//clasificadorJ48.setUnpruned(true);
 				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
 				data.setClassIndex(data.numAttributes() - 1);
 				//Construimos el clasificador
@@ -152,4 +159,42 @@ public class AnalizadorWeka extends Agent {
 			}
 		}
 	}
+	
+	
+	public class ComportamientoRegLineal extends OneShotBehaviour {
+		public void action() {
+			try {
+				Logistic clasificadorLogistic = new Logistic();
+				Logistic clasificadorLogistic_2 = new Logistic();
+				Instances data = new Instances(new BufferedReader(new FileReader(fichero)));
+				data.setClassIndex(data.numAttributes() - 1);
+				clasificadorLogistic.buildClassifier(data);
+				
+				//Validacion cruzada
+				Evaluation evalLogistic = new Evaluation(data);
+	            evalLogistic.crossValidateModel(clasificadorLogistic_2, data, 10, new Random(1));
+	            
+	            resultado.setClasificadorLogistic(clasificadorLogistic);
+	            resultado.setEvaluation(evalLogistic);
+	            resultado.setInstances(data);
+	            System.out.println("Evaluacion: " + resultado.getEvaluation().toSummaryString() + "\n\n" + 
+	            		resultado.getClasificadorLogistic().toString());
+	            msg1.setContentObject((Serializable) resultado);
+	            this.myAgent.send(msg1);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

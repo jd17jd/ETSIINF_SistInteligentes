@@ -110,6 +110,13 @@ public class AgenteUsuario extends Agent {
 							+ "KNN: \n" + resultadoAnalisis.getEvaluation().toSummaryString() + "\n\n"
 							+ resultadoAnalisis.getClasificadorKnn().toString();
 					textArea.setText(knn);
+					
+				} else if(metodo_clasificacion.equals("Reg_Logistica")) {
+					String regLog = textArea.getText()
+							+ "\n\n Resultado del análisis con WEKA utilizando el algoritmo de Regresión Logística "
+							+ "Logistic: \n" + resultadoAnalisis.getEvaluation().toSummaryString() + "\n\n"
+							+ resultadoAnalisis.getClasificadorLogistic().toString();
+					textArea.setText(regLog);
 				}
 				
 				

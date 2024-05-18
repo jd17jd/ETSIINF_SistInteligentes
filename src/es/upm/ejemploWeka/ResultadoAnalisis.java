@@ -1,6 +1,7 @@
 package es.upm.ejemploWeka;
 
 import weka.classifiers.evaluation.Evaluation;
+import weka.classifiers.functions.Logistic;
 import weka.classifiers.trees.J48;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
@@ -12,6 +13,7 @@ public class ResultadoAnalisis implements Serializable {
 	Evaluation[] evaluations = new Evaluation[11];
 	J48 clasificadorJ48;
 	IBk clasificadorKnn;
+	Logistic clasificadorLogistic;
 
 	//AÑADIR más tipos de clasificadores AQUI
 	protected Instances getInstances() {
@@ -44,5 +46,13 @@ public class ResultadoAnalisis implements Serializable {
 
 	protected void setClasificadorKnn(IBk knn) {
 		clasificadorKnn = knn;
+	}
+	
+	protected Logistic getClasificadorLogistic() {
+		return clasificadorLogistic;
+	}
+
+	protected void setClasificadorLogistic(Logistic logistic) {
+		clasificadorLogistic = logistic;
 	}
 }
