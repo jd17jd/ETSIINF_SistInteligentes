@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.*;
 
 public class DatosAnalizar implements Serializable {
-//Fichero de datos analizar que ha cargado el usuario en el interfaz
+	//Fichero de datos analizar que ha cargado el usuario en el interfaz
 	File file;
-//Utilizamos un único método de clasificación que ha seleccionado el usuario en el interfaz
+	//Utilizamos un único método de clasificación que ha seleccionado el usuario en el interfaz
 	String classificationMethod;
 
 	protected File getFile() {
