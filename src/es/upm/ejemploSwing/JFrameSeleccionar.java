@@ -82,6 +82,10 @@ public class JFrameSeleccionar extends JFrame {
             }
         });
 
+        for(int i = 0; i < check.length; i++) {
+        	check[i] = true;
+        }
+        
         Font impact = new Font("Impact", Font.PLAIN, 40);
         Font arial1 = new Font("Arial", Font.BOLD, 15);
         Font arialError = new Font("Arial", Font.PLAIN, 10);

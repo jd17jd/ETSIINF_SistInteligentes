@@ -9,9 +9,8 @@ import jade.lang.acl.MessageTemplate;
 public class AgenteUsuario extends Agent {
 	
 	private MainWindow principal;
-	private int embarazos, edad;
-	private double nivel_glucosa, presion_arterial, 
-	pliegue_cutaneo, insulina, masa_muscular, pedigri;
+	private int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
+	private double masa_muscular, pedigri;
 	
 	protected void setup() {
 		
@@ -99,7 +98,7 @@ public class AgenteUsuario extends Agent {
 		return nivel_glucosa;
 	}
 
-	public void setNivel_glucosa(double nivel_glucosa) {
+	public void setNivel_glucosa(int nivel_glucosa) {
 		this.nivel_glucosa = nivel_glucosa;
 	}
 
@@ -107,7 +106,7 @@ public class AgenteUsuario extends Agent {
 		return presion_arterial;
 	}
 
-	public void setPresion_arterial(double presion_arterial) {
+	public void setPresion_arterial(int presion_arterial) {
 		this.presion_arterial = presion_arterial;
 	}
 
@@ -115,7 +114,7 @@ public class AgenteUsuario extends Agent {
 		return pliegue_cutaneo;
 	}
 
-	public void setPliegue_cutaneo(double pliegue_cutaneo) {
+	public void setPliegue_cutaneo(int pliegue_cutaneo) {
 		this.pliegue_cutaneo = pliegue_cutaneo;
 	}
 
@@ -123,7 +122,7 @@ public class AgenteUsuario extends Agent {
 		return insulina;
 	}
 
-	public void setInsulina(double insulina) {
+	public void setInsulina(int insulina) {
 		this.insulina = insulina;
 	}
 

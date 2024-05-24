@@ -4,9 +4,8 @@ import java.io.Serializable;
 
 public class DatosAnalizar implements Serializable {
 	
-	int embarazos, edad;
-	double nivel_glucosa, presion_arterial, 
-	pliegue_cutaneo, insulina, masa_muscular, pedigri;
+	int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
+	double masa_muscular, pedigri;
 	
 	
 	protected  int getEmbarazos() {
@@ -24,25 +23,25 @@ public class DatosAnalizar implements Serializable {
 	protected double getNivel_glucosa() {
 		return nivel_glucosa;
 	}
-	protected void setNivel_glucosa(double nivel_glucosa) {
+	protected void setNivel_glucosa(int nivel_glucosa) {
 		this.nivel_glucosa = nivel_glucosa;
 	}
 	protected double getPresion_arterial() {
 		return presion_arterial;
 	}
-	protected void setPresion_arterial(double presion_arterial) {
+	protected void setPresion_arterial(int presion_arterial) {
 		this.presion_arterial = presion_arterial;
 	}
 	protected double getPliegue_cutaneo() {
 		return pliegue_cutaneo;
 	}
-	protected void setPliegue_cutaneo(double pliegue_cutaneo) {
+	protected void setPliegue_cutaneo(int pliegue_cutaneo) {
 		this.pliegue_cutaneo = pliegue_cutaneo;
 	}
 	protected double getInsulina() {
 		return insulina;
 	}
-	protected void setInsulina(double insulina) {
+	protected void setInsulina(int insulina) {
 		this.insulina = insulina;
 	}
 	protected double getMasa_muscular() {

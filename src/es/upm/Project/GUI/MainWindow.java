@@ -68,9 +68,8 @@ public class MainWindow extends JFrame {
         predictButton.addActionListener(new ActionListener() {
         	
         	public void actionPerformed(ActionEvent e) {
-        		int embarazos, edad;
-        		double nivel_glucosa, presion_arterial, 
-        		pliegue_cutaneo, insulina, masa_muscular, pedigri;
+        		int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
+        		double masa_muscular, pedigri;
         		
         		embarazos = Integer.parseInt(pregnanciesField.getText());
                 nivel_glucosa = Integer.parseInt(glucoseField.getText());
