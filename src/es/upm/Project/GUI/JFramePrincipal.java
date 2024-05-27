@@ -1,4 +1,4 @@
-package es.upm.ejemploSwing;
+/*package es.upm.Project.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -19,7 +19,7 @@ import java.awt.event.WindowEvent;
 
 public class JFramePrincipal extends JFrame {
 	private JPanel contentPane;
-	JFrameSeleccionar ventana;
+	MainWindow ventana;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,7 +64,7 @@ public class JFramePrincipal extends JFrame {
 			mntmNuevaPrediccion.addActionListener(new ActionListener() {
 			//Cuando se pulsa el elemento del menú NuevaPrediccion se crea una nueva ventana JFrameSeleccionar
 			public void actionPerformed(ActionEvent e) {
-			//ventana = new JFrameSeleccionar(agente);
+			ventana = new MainWindow(agente);
 			ventana.setVisible(true);
 			}
 			});
@@ -90,4 +90,4 @@ public class JFramePrincipal extends JFrame {
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
 	}
-}
+}*/
