@@ -20,6 +20,22 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
     private boolean check[] = new boolean [8]; //numero de atributos a checkear
+    
+ // Método para mostrar los resultados del análisis    
+    public void mostrarResultados(String resultados) {
+        JTextArea textArea = new JTextArea(resultados);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        
+        JFrame resultFrame = new JFrame("Resultados del Análisis");
+        resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        resultFrame.add(scrollPane);
+        resultFrame.setSize(500, 400);
+        resultFrame.setLocationRelativeTo(null);
+        resultFrame.setVisible(true);
+    }
+    
+    
 
     public MainWindow (AgenteUsuario agente) {
     	
@@ -417,7 +433,7 @@ public class MainWindow extends JFrame {
                 System.out.println("Edad (años): " + argEdad);
                 
                 //Llama al método del agente con los datos
-                //agente.hacerPrediccion(argEmbarazos, argGlucosa, argPresion, argGrosor, argInsulina, argIndice, argFuncion, argEdad);
+                agente.setAtributes(argEmbarazos, argGlucosa, argPresion, argGrosor, argInsulina, argIndice, argFuncion, argEdad);
                 
                 //agente.doWake();
                 //dispose();

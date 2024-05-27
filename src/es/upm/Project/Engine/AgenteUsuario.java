@@ -1,5 +1,8 @@
 package es.upm.Project.Engine;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+
 import es.upm.Project.GUI.MainWindow;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -27,6 +30,18 @@ public class AgenteUsuario extends Agent {
 		
 	}
 	
+	public void setAtributes(int argEmbarazos, int argGlucosa, int argPresion, int argGrosor, int argInsulina, double argIndice, double argFuncion, int argEdad) {
+		this.edad = argEdad;
+		this.embarazos = argEmbarazos;
+		this.insulina = argInsulina;
+		this.masa_muscular = argIndice;
+		this.nivel_glucosa = argGlucosa;
+		this.pedigri = argFuncion;
+		this.pliegue_cutaneo = argGrosor;
+		this.presion_arterial = argPresion;
+		
+	}
+	
 	public class CyclicBehaviourSolicitarAnalisis extends CyclicBehaviour {
 
 		@Override
@@ -47,11 +62,16 @@ public class AgenteUsuario extends Agent {
 				datosAnalizar.setPliegue_cutaneo(pliegue_cutaneo);
 				datosAnalizar.setPresion_arterial(presion_arterial);
 				
+				// Enviamos el mensaje de solicitud de Utils de clasificacion al AgenteAnalizador
 				
-				Utils.enviarMensaje(this.myAgent, "analisis", null); //Null: En el ejemplo le pasa datosAnalizar
-			}
-			catch (Exception e) {
-				System.err.println("Error en ...(?)");
+				// Enviamos al agente que tenga registrado el servicio "analisis"
+				// Enviamos el contenido el objeto a analizar
+				// Interactua con el directory facilitator de Jave para buscar un servicio "analisi" a consumir
+				
+				Utils.enviarMensaje(this.myAgent, "analisis", datosAnalizar);
+			
+			} catch (Exception e) {
+				System.err.println("Error en ... * FALTA ESPECIFICAR EL TIPO DE ERROR *");
 				e.printStackTrace();
 			}
 		}
@@ -60,22 +80,30 @@ public class AgenteUsuario extends Agent {
 	
 	public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
 
-		@Override
-		//Comportamiento de usuario
-		public void action() {
-			//Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
-			ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
-			try {
-				//Recibimos los datos ya analizados,que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
-			}
-			catch (Exception e) {
-				System.err.println("Error en ...(?)");
-				e.printStackTrace();
-			}
-			
-		}
-		
+	    @Override
+	    public void action() {
+	        // Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
+	        ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+
+	        try {
+	            // Recibimos los datos ya analizados, que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
+	            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
+	            ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
+	            
+	            // Convertimos los resultados a string
+	            String resultados = resultadoAnalisis.resultadosToString();
+	            
+	            // Mostramos los resultados en la interfaz gráfica
+	            AgenteUsuario agente = (AgenteUsuario) this.myAgent;
+	            agente.getPrincipal().mostrarResultados(resultados);
+	        } catch (Exception e) {
+	            System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
 	}
+
+
 	
 	//Getters y setters
 	public MainWindow getPrincipal() {
@@ -149,7 +177,5 @@ public class AgenteUsuario extends Agent {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-	
-	
 	
 }
