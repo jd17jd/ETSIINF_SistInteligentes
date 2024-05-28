@@ -51,6 +51,7 @@ public class AgenteUsuario extends Agent {
 		//Comportamiento de usuario
 		public void action() {
 			try {
+				System.out.println("ENTRO AQUIIII DENTROOO");
 				//Agente espera a que el usuario introduzca los parámetros y seleccione predecir
 				myAgent.doWait();
 				
