@@ -8,7 +8,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import com.formdev.flatlaf.FlatLightLaf;
 import es.upm.Project.Engine.AgenteUsuario;
-import es.upm.ejemploSwing.JFrameBoton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -444,25 +443,15 @@ public class MainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
+    	
     	FlatLightLaf.setup();
     	Color arrowColor = new Color(58,134,254);
     	UIManager.put("Spinner.buttonPressedArrowColor", arrowColor.darker());
     	UIManager.put("Spinner.buttonHoverArrowColor", arrowColor);
     	UIManager.put("Spinner.buttonArrowColor", new Color(43,43,43));
         UIManager.put("Spinner.buttonBackground", Color.WHITE);
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AgenteUsuario agente = new AgenteUsuario();
-                    MainWindow mainWindow = new MainWindow(agente);
-                    mainWindow.setVisible(true);
-                    mainWindow.setLocationRelativeTo(null);
-                    mainWindow.setSize(500, 600);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        
+        EventQueue.invokeLater(new GuiInitializer());
     }
     
 }

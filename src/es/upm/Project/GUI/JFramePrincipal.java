@@ -1,4 +1,4 @@
-package es.upm.Project.GUI;
+/*package es.upm.Project.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -90,4 +90,4 @@ public class JFramePrincipal extends JFrame {
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
 	}
-}
+}*/

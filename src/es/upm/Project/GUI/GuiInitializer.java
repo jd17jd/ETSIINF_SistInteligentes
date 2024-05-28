@@ -8,8 +8,10 @@ public class GuiInitializer implements Runnable {
 	public void run() {
         try {
             AgenteUsuario agente = new AgenteUsuario();
-            MainWindow frame = new MainWindow(agente);
-            frame.setVisible(true);
+            MainWindow mainWindow = new MainWindow(agente);
+            mainWindow.setVisible(true);
+            mainWindow.setLocationRelativeTo(null);
+            mainWindow.setSize(500, 600);
         } catch (Exception e) {
             e.printStackTrace();
         }
