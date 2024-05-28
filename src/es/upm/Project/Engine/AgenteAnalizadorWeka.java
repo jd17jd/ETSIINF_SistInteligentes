@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import es.upm.Project.Engine.DatosAnalizar;
@@ -111,7 +112,6 @@ public class AgenteAnalizadorWeka extends Agent {
 	                    instanceValues[5] = analizar.getInsulina();
 	                    instanceValues[6] = analizar.getMasa_muscular();
 	                    instanceValues[7] = analizar.getPedigri();
-	                    instanceValues[8] = Instance.missingValue(); // Assuming class is unknown
 
 	                    data.add(new DenseInstance(1.0, instanceValues));
 
@@ -150,10 +150,10 @@ public class AgenteAnalizadorWeka extends Agent {
 	                evalLogistica.crossValidateModel(clasificadorLogistico_2, data, 10, new Random(1));
 
 	                ((AgenteAnalizadorWeka) myAgent).resultado.setClasificadorLogistic(clasificadorLogistico);
-	                ((AgenteAnalizadorWeka) myAgent).resultado.setEvaluation(evalLogistica);
-	                ((AgenteAnalizadorWeka) myAgent).resultado.setInstances(data);
+	                ((AgenteAnalizadorWeka) myAgent).resultado.setEval(evalLogistica);
+	                ((AgenteAnalizadorWeka) myAgent).resultado.setData(data);
 
-	                System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEvaluation().toSummaryString() + "\n\n"
+	                System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
 	                        + ((AgenteAnalizadorWeka) myAgent).resultado.getClasificadorLogistic().toString());
 
 	                msg1.setContentObject((Serializable) ((AgenteAnalizadorWeka) myAgent).resultado);
