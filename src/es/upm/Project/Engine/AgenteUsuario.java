@@ -11,6 +11,7 @@ import jade.lang.acl.MessageTemplate;
 
 public class AgenteUsuario extends Agent {
 	
+	private static final long serialVersionUID = 1L;
 	private MainWindow principal;
 	private int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
 	private double masa_muscular, pedigri;
@@ -43,6 +44,8 @@ public class AgenteUsuario extends Agent {
 	}
 	
 	public class CyclicBehaviourSolicitarAnalisis extends CyclicBehaviour {
+
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		//Comportamiento de usuario
@@ -78,30 +81,32 @@ public class AgenteUsuario extends Agent {
 		
 	}
 	
-	public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
+	 public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
 
-	    @Override
-	    public void action() {
-	        // Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
-	        ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+	        private static final long serialVersionUID = 1L;
 
-	        try {
-	            // Recibimos los datos ya analizados, que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
-	            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
-	            ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
-	            
-	            // Convertimos los resultados a string
-	            String resultados = resultadoAnalisis.resultadosToString();
-	            
-	            // Mostramos los resultados en la interfaz gráfica
-	            AgenteUsuario agente = (AgenteUsuario) this.myAgent;
-	            agente.getPrincipal().mostrarResultados(resultados);
-	        } catch (Exception e) {
-	            System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
-	            e.printStackTrace();
+			@Override
+	        public void action() {
+	            // Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
+	            ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+
+	            try {
+	                // Recibimos los datos ya analizados, que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
+	                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
+	                ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
+	                
+	                // Convertimos los resultados a string
+	                String resultados = resultadoAnalisis.resultadosToString();
+	                
+	                // Mostramos los resultados en la interfaz gráfica
+	                AgenteUsuario agente = (AgenteUsuario) this.myAgent;
+	                agente.getPrincipal().mostrarResultados(resultados);
+	            } catch (Exception e) {
+	                System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
+	                e.printStackTrace();
+	            }
 	        }
 	    }
-	}
 
 
 	

@@ -1,0 +1,87 @@
+@relation pima_diabetes
+@attribute 'preg' real
+@attribute 'plas' real
+@attribute 'pres' real
+@attribute 'skin' real
+@attribute 'insu' real
+@attribute 'mass' real
+@attribute 'pedi' real
+@attribute 'age' real
+@attribute 'class' {tested_negative, tested_positive}
+@data
+1,97,70,40,0,38.1,0.218,30,tested_negative
+5,78,48,0,0,33.7,0.654,25,tested_negative
+3,111,58,31,44,29.5,0.43,22,tested_negative
+2,129,84,0,0,28.0,0.284,27,tested_negative
+7,102,74,40,105,37.2,0.204,45,tested_negative
+1,124,74,36,0,27.8,0.1,30,tested_negative
+1,119,44,47,63,35.5,0.28,25,tested_negative
+1,105,58,0,0,24.3,0.187,21,tested_negative
+1,96,122,0,0,22.4,0.207,27,tested_negative
+3,130,64,0,0,23.1,0.314,22,tested_negative
+1,97,66,15,140,23.2,0.487,22,tested_negative
+3,99,80,11,64,19.3,0.284,30,tested_negative
+6,183,94,0,0,40.8,1.461,45,tested_negative
+0,100,70,26,50,30.8,0.597,21,tested_negative
+4,154,72,29,126,31.3,0.338,37,tested_negative
+6,123,72,45,230,33.6,0.733,34,tested_negative
+9,89,62,0,0,22.5,0.142,33,tested_negative
+0,100,88,60,110,46.8,0.962,31,tested_negative
+2,81,72,15,76,30.1,0.547,25,tested_negative
+2,108,64,0,0,30.8,0.158,21,tested_negative
+1,121,78,39,74,39.0,0.261,28,tested_negative
+3,108,62,24,0,26.0,0.223,25,tested_negative
+2,119,0,0,0,19.6,0.832,72,tested_negative
+3,84,68,30,106,31.9,0.591,25,tested_negative
+6,111,64,39,0,34.2,0.26,24,tested_negative
+4,110,76,20,100,28.4,0.118,27,tested_negative
+2,122,70,27,0,36.8,0.34,27,tested_negative
+8,95,72,0,0,36.8,0.485,57,tested_negative
+1,109,56,21,135,25.2,0.833,23,tested_negative
+3,124,80,33,130,33.2,0.305,26,tested_negative
+1,116,78,29,180,36.1,0.496,25,tested_negative
+3,125,58,0,0,31.6,0.151,24,tested_negative
+1,99,58,10,0,25.4,0.551,21,tested_negative
+5,114,74,0,0,24.9,0.744,57,tested_negative
+5,116,74,0,0,25.6,0.201,30,tested_negative
+2,68,70,32,66,25.0,0.187,25,tested_negative
+4,90,88,47,54,37.7,0.362,29,tested_negative
+3,83,58,31,18,34.3,0.336,25,tested_negative
+2,144,58,33,135,31.6,0.422,25,tested_positive
+11,138,74,26,144,36.1,0.557,50,tested_positive
+9,171,110,24,240,45.4,0.721,54,tested_positive
+7,178,84,0,0,39.9,0.331,41,tested_positive
+10,161,68,23,132,25.5,0.326,47,tested_positive
+3,173,84,33,474,35.7,0.258,22,tested_positive
+0,162,76,36,0,49.6,0.364,26,tested_positive
+1,196,76,36,249,36.5,0.875,29,tested_positive
+2,100,66,20,90,32.9,0.867,28,tested_positive
+8,109,76,39,114,27.9,0.64,31,tested_positive
+13,152,90,33,29,26.8,0.731,43,tested_positive
+5,85,74,22,0,29.0,1.224,32,tested_positive
+9,112,82,32,175,34.2,0.26,36,tested_positive
+12,84,72,31,0,29.7,0.297,46,tested_positive
+7,103,66,32,0,39.1,0.344,31,tested_positive
+5,139,80,35,160,31.6,0.361,25,tested_positive
+0,135,68,42,250,42.3,0.365,24,tested_positive
+4,125,70,18,122,28.9,1.144,45,tested_positive
+1,128,98,41,58,32.0,1.321,33,tested_positive
+2,146,70,38,360,28.0,0.337,29,tested_positive
+7,181,84,21,192,35.9,0.586,51,tested_positive
+7,100,0,0,0,30.0,0.484,32,tested_positive
+3,139,54,0,0,25.6,0.402,22,tested_positive
+0,198,66,32,274,41.3,0.502,28,tested_positive
+1,119,86,39,220,45.6,0.808,29,tested_positive
+4,146,92,0,0,31.2,0.539,61,tested_positive
+7,114,64,0,0,27.4,0.732,34,tested_positive
+1,88,30,42,99,55.0,0.496,26,tested_positive
+8,124,76,24,600,28.7,0.687,52,tested_positive
+3,112,74,30,0,31.6,0.197,25,tested_positive
+0,113,76,0,0,33.3,0.278,23,tested_positive
+4,156,75,0,0,48.3,0.238,32,tested_positive
+10,168,74,0,0,38.0,0.537,34,tested_positive
+3,169,74,19,125,29.9,0.268,31,tested_positive
+4,115,72,0,0,28.9,0.376,46,tested_positive
+3,162,52,38,0,37.2,0.652,24,tested_positive
+0,128,68,19,180,30.5,1.391,25,tested_positive
+8,176,90,34,300,33.7,0.467,58,tested_positive

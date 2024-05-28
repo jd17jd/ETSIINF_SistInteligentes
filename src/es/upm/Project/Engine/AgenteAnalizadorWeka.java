@@ -170,11 +170,11 @@ public class AgenteAnalizadorWeka extends Agent {
 	        try {
 	            System.out.println("Entrenando modelo Logístico...");
 	            Instances data = new Instances(new BufferedReader(new FileReader("resources/diabetes.arff")));
-
+	            
 	            data.setClassIndex(data.numAttributes() - 1);
 				
 				// Dividir los datos en entrenamiento y prueba (por ejemplo, 75% entrenamiento, 25% prueba)
-	            int trainSize = (int) Math.round(data.numInstances() * 0.70);
+	            int trainSize = (int) Math.round(data.numInstances() * 0.75);
 	            int testSize = data.numInstances() - trainSize;
 	            Instances trainData = new Instances(data, 0, trainSize);
 	            Instances testData = new Instances(data, trainSize, testSize);
