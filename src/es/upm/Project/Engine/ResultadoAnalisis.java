@@ -12,6 +12,7 @@ public class ResultadoAnalisis implements Serializable {
     private Evaluation eval;
     private Evaluation[] evaluations;
     private Logistic clasificadorLogistic;
+    private String resultadoClasificacion; // Nuevo atributo para almacenar el resultado de la clasificación
 
     // Constructor
     public ResultadoAnalisis() {
@@ -55,6 +56,14 @@ public class ResultadoAnalisis implements Serializable {
         this.clasificadorLogistic = clasificadorLogistic;
     }
 
+    public String getResultadoClasificacion() {
+        return resultadoClasificacion;
+    }
+
+    public void setResultadoClasificacion(String resultadoClasificacion) {
+        this.resultadoClasificacion = resultadoClasificacion;
+    }
+
     // Method to convert analysis result to string
     public String resultadosToString() throws Exception {
         StringBuilder sb = new StringBuilder();
@@ -88,7 +97,18 @@ public class ResultadoAnalisis implements Serializable {
             sb.append("No hay clasificador logístico disponible.\n");
         }
 
+        if (resultadoClasificacion != null) {
+            sb.append("Resultado de la Clasificación:\n");
+            sb.append(resultadoClasificacion).append("\n");
+        } else {
+            sb.append("No hay resultado de clasificación disponible.\n");
+        }
+
         return sb.toString();
     }
-}
 
+    // Método para establecer el resultado de la clasificación
+    public void setResultado(String resultadoClasificacion) {
+        this.resultadoClasificacion = resultadoClasificacion;
+    }
+}
