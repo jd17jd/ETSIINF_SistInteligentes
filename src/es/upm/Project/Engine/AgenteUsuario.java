@@ -52,7 +52,6 @@ public class AgenteUsuario extends Agent {
 		//Comportamiento de usuario
 		public void action() {
 			try {
-				System.out.println("ENTRO AQUIIII DENTROOO");
 				//Agente espera a que el usuario introduzca los parámetros y haga click en "Enviar"
 				myAgent.doWait();
 				
@@ -67,17 +66,15 @@ public class AgenteUsuario extends Agent {
 				datosAnalizar.setPliegue_cutaneo(pliegue_cutaneo);
 				datosAnalizar.setPresion_arterial(presion_arterial);
 				
-				System.out.println("AQUI DEBERIA DE SEGUIR");
 				// Enviamos el mensaje de solicitud de Utils de clasificacion al AgenteAnalizador
 				
 				// Enviamos al agente que tenga registrado el servicio "analisis"
 				// Enviamos el contenido el objeto a analizar
-				// Interactua con el directory facilitator de Jave para buscar un servicio "analisi" a consumir
+				// Interactua con el directory facilitator de Jave para buscar un servicio "analisis" a consumir
 				
 				Utils.enviarMensaje(this.myAgent, "analisis", datosAnalizar);
 			
 			} catch (Exception e) {
-				System.err.println("Error en ... * FALTA ESPECIFICAR EL TIPO DE ERROR *");
 				e.printStackTrace();
 			}
 		}
@@ -95,17 +92,17 @@ public class AgenteUsuario extends Agent {
 
 	            try {
 	                // Recibimos los datos ya analizados, que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
-	                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
-	                ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
+	                //ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
+	                //ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
 	                
 	                // Convertimos los resultados a string
-	                String resultados = resultadoAnalisis.resultadosToString();
-	                
+	                //String resultados = resultadoAnalisis.resultadosToString();
+	                String res = msg1.getContent();
 	                // Mostramos los resultados en la interfaz gráfica
 	                AgenteUsuario agente = (AgenteUsuario) this.myAgent;
 	                
 	                //Esto no lo hace
-	                agente.getPrincipal().getMainWindow().mostrarResultados(resultados);
+	                agente.getPrincipal().getMainWindow().mostrarResultados(res);
 	            } catch (Exception e) {
 	                System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
 	                e.printStackTrace();

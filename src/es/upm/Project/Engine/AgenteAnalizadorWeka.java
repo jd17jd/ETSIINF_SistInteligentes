@@ -83,7 +83,7 @@ public class AgenteAnalizadorWeka extends Agent {
 			ACLMessage msg = myAgent.receive(mt1);
 			if (msg != null) {
 				if (msg.getPerformative() == ACLMessage.REQUEST) {
-					System.out.println(myAgent.getLocalName() + ": Recibo el mensaje: \n" + msg);
+					//System.out.println(myAgent.getLocalName() + ": Recibo el mensaje: \n" + msg);
 					try {
 						// Asegurarse de que el clasificador ha sido entrenado
 						if (clasificadorLogistico == null) {
@@ -127,8 +127,6 @@ public class AgenteAnalizadorWeka extends Agent {
 						// Crear una instancia de evaluación para obtener el resultado
 						double pred = clasificadorLogistico.classifyInstance(data.instance(0));
 	                    String resultadoClasificacion = data.classAttribute().value((int) pred);
-	                    	
-	                    System.out.println(resultadoClasificacion); //aqui iria el resultado de la prediccion (POSITIVO / NEGATIVO)
 						
 	                    // Crear un objeto ResultadoAnalisis para enviar de vuelta al AgenteUsuario
 						ResultadoAnalisis resultadoAnalisis = new ResultadoAnalisis();
@@ -137,11 +135,7 @@ public class AgenteAnalizadorWeka extends Agent {
 						// Serializar el objeto ResultadoAnalisis y enviarlo de vuelta al AgenteUsuario
 						ACLMessage reply = msg.createReply();
 						reply.setPerformative(ACLMessage.INFORM);
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						ObjectOutputStream oos = new ObjectOutputStream(baos);
-						oos.writeObject(resultadoAnalisis);
-						oos.close();
-						reply.setContent(baos.toString("ISO-8859-1"));
+						reply.setContent(resultadoClasificacion);
 						myAgent.send(reply);
 
 					} catch (Exception e) {
