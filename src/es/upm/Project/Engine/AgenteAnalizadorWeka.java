@@ -179,7 +179,7 @@ public class AgenteAnalizadorWeka extends Agent {
 	            Instances trainData = new Instances(data, 0, trainSize);
 	            Instances testData = new Instances(data, trainSize, testSize);
 	            
-	            Logistic clasificadorLogistico = new Logistic();
+	            clasificadorLogistico = new Logistic();
 	            clasificadorLogistico.buildClassifier(data); //Entrenar el Clasificador (OBTENGO EL MODELO)
 	            
 	            Evaluation evalLogistica = new Evaluation(trainData); 

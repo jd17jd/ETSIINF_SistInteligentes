@@ -3,6 +3,7 @@ package es.upm.Project.Engine;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 
+import es.upm.Project.GUI.GuiInitializer;
 import es.upm.Project.GUI.MainWindow;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -12,7 +13,7 @@ import jade.lang.acl.MessageTemplate;
 public class AgenteUsuario extends Agent {
 	
 	private static final long serialVersionUID = 1L;
-	private MainWindow principal;
+	private GuiInitializer principal;
 	private int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
 	private double masa_muscular, pedigri;
 	
@@ -27,7 +28,8 @@ public class AgenteUsuario extends Agent {
 		addBehaviour(new CyclicBehaviourMostrarResultados());
 		
 			// 3. ComportamientoZ --> Lanzamos la interfaz en otro hilo
-		principal = new MainWindow(this);
+		principal = new GuiInitializer(this.getLocalName(), this);
+		principal.run();
 	}
 	
 	public void setAtributes(int argEmbarazos, int argGlucosa, int argPresion, int argGrosor, int argInsulina, double argIndice, double argFuncion, int argEdad) {
@@ -51,7 +53,7 @@ public class AgenteUsuario extends Agent {
 		public void action() {
 			try {
 				System.out.println("ENTRO AQUIIII DENTROOO");
-				//Agente espera a que el usuario introduzca los parámetros y seleccione predecir
+				//Agente espera a que el usuario introduzca los parámetros y haga click en "Enviar"
 				myAgent.doWait();
 				
 				DatosAnalizar datosAnalizar = new DatosAnalizar();
@@ -65,6 +67,7 @@ public class AgenteUsuario extends Agent {
 				datosAnalizar.setPliegue_cutaneo(pliegue_cutaneo);
 				datosAnalizar.setPresion_arterial(presion_arterial);
 				
+				System.out.println("AQUI DEBERIA DE SEGUIR");
 				// Enviamos el mensaje de solicitud de Utils de clasificacion al AgenteAnalizador
 				
 				// Enviamos al agente que tenga registrado el servicio "analisis"
@@ -102,7 +105,7 @@ public class AgenteUsuario extends Agent {
 	                AgenteUsuario agente = (AgenteUsuario) this.myAgent;
 	                
 	                //Esto no lo hace
-	                agente.getPrincipal().mostrarResultados(resultados);
+	                agente.getPrincipal().getMainWindow().mostrarResultados(resultados);
 	            } catch (Exception e) {
 	                System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
 	                e.printStackTrace();
@@ -113,11 +116,11 @@ public class AgenteUsuario extends Agent {
 
 	
 	//Getters y setters
-	public MainWindow getPrincipal() {
+	public GuiInitializer getPrincipal() {
 		return principal;
 	}
 
-	public void setPrincipal(MainWindow principal) {
+	public void setPrincipal(GuiInitializer principal) {
 		this.principal = principal;
 	}
 

@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import com.formdev.flatlaf.FlatLightLaf;
 import es.upm.Project.Engine.AgenteUsuario;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,8 +19,9 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
     private boolean check[] = new boolean [8]; //numero de atributos a checkear
     
- // Método para mostrar los resultados del análisis
+ // Método para mostrar los resultados del análisis    
     public void mostrarResultados(String resultados) {
+    	System.out.println("Mostramos resultados");
         JTextArea textArea = new JTextArea(resultados);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -37,9 +37,7 @@ public class MainWindow extends JFrame {
     
 
     public MainWindow (AgenteUsuario agente) {
-    	
-    	//FlatLightLaf.setup();
-        // Añadimos el listener para la advertencia al cerrar
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent arg0) {
             	String opciones[] = { "Sí", "No" };
@@ -48,7 +46,7 @@ public class MainWindow extends JFrame {
                         2, JOptionPane.QUESTION_MESSAGE, null, opciones, "No");
                 if (selec == 0) {
                     dispose();
-                    /*agente.doDelete();*/
+                    agente.doDelete();
                 }
             }
         });
@@ -434,7 +432,7 @@ public class MainWindow extends JFrame {
                 //Llama al método del agente con los datos
                 agente.setAtributes(argEmbarazos, argGlucosa, argPresion, argGrosor, argInsulina, argIndice, argFuncion, argEdad);
                 
-                //agente.doWake();
+                agente.doWake();
                 //dispose();
             }
         });
@@ -444,15 +442,13 @@ public class MainWindow extends JFrame {
 
     public static void main(String[] args) {
     	
-    	FlatLightLaf.setup();
+    	//FlatLightLaf.setup();
     	Color arrowColor = new Color(58,134,254);
     	UIManager.put("Spinner.buttonPressedArrowColor", arrowColor.darker());
     	UIManager.put("Spinner.buttonHoverArrowColor", arrowColor);
     	UIManager.put("Spinner.buttonArrowColor", new Color(43,43,43));
         UIManager.put("Spinner.buttonBackground", Color.WHITE);
         
-        EventQueue.invokeLater(new GuiInitializer());
     }
     
 }
-
