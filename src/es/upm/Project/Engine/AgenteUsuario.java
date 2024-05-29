@@ -28,7 +28,6 @@ public class AgenteUsuario extends Agent {
 		
 			// 3. ComportamientoZ --> Lanzamos la interfaz en otro hilo
 		principal = new MainWindow(this);
-		
 	}
 	
 	public void setAtributes(int argEmbarazos, int argGlucosa, int argPresion, int argGrosor, int argInsulina, double argIndice, double argFuncion, int argEdad) {
@@ -101,6 +100,8 @@ public class AgenteUsuario extends Agent {
 	                
 	                // Mostramos los resultados en la interfaz gráfica
 	                AgenteUsuario agente = (AgenteUsuario) this.myAgent;
+	                
+	                //Esto no lo hace
 	                agente.getPrincipal().mostrarResultados(resultados);
 	            } catch (Exception e) {
 	                System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());

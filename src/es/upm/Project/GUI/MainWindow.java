@@ -20,7 +20,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
     private boolean check[] = new boolean [8]; //numero de atributos a checkear
     
- // Método para mostrar los resultados del análisis    
+ // Método para mostrar los resultados del análisis
     public void mostrarResultados(String resultados) {
         JTextArea textArea = new JTextArea(resultados);
         textArea.setEditable(false);

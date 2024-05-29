@@ -7,6 +7,7 @@ public class GuiInitializer implements Runnable {
 	@Override
 	public void run() {
         try {
+        	System.out.println("Estoy dentro jeje");
             AgenteUsuario agente = new AgenteUsuario();
             MainWindow mainWindow = new MainWindow(agente);
             mainWindow.setVisible(true);

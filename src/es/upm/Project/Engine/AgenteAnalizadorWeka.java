@@ -189,7 +189,8 @@ public class AgenteAnalizadorWeka extends Agent {
 				((AgenteAnalizadorWeka) myAgent).resultado.setEval(evalLogistica);
 				((AgenteAnalizadorWeka) myAgent).resultado.setData(data);
 				
-
+//				ESTO LO DEBERIAMOS QUITAR PORQUE EL MOSTRAR DATOS ES OTRO COMPORTAMIENTO
+//				Esto no lo devolvemos porque es lo que hace el mostrarResultados en la interfaz
 				System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
 						+ ((AgenteAnalizadorWeka) myAgent).resultado.resultadosToString());
 				        //+ ((AgenteAnalizadorWeka) myAgent).resultado.getClasificadorLogistic().toString());
