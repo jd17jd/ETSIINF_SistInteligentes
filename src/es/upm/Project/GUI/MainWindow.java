@@ -19,20 +19,47 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
     private boolean check[] = new boolean [8]; //numero de atributos a checkear
     
- // Método para mostrar los resultados del análisis    
+    //Método para mostrar los resultados del análisis    
     public void mostrarResultados(String resultados) {
-    	System.out.println("Mostramos resultados");
-        JTextArea textArea = new JTextArea(resultados);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
         
+        String mensaje;
+        if (resultados.equals("tested_negative")) {
+            mensaje = "El resultado procesado es <b>NEGATIVO</b> con un 81.25% de certeza.";
+        } else {
+            mensaje = "El resultado procesado es <b>POSITIVO</b> con un 81.25% de certeza.";
+        }
+
+
+        JEditorPane textPane = new JEditorPane("text/html", "<html><body style='font-family: Arial; font-size: 18px; text-align: center;'>" + mensaje + "</body></html>");
+        textPane.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setPreferredSize(new Dimension(450, 300));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         JFrame resultFrame = new JFrame("Resultados del Análisis");
         resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        resultFrame.add(scrollPane);
         resultFrame.setSize(500, 400);
         resultFrame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        JLabel titleLabel = new JLabel("Resultados del Análisis");
+        titleLabel.setFont(new Font("Impact", Font.BOLD, 22));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(scrollPane, BorderLayout.CENTER);
+        textPanel.setBorder(BorderFactory.createLineBorder(new Color(58, 134, 254), 2));
+
+        panel.add(titleLabel, BorderLayout.NORTH);
+        panel.add(textPanel, BorderLayout.CENTER);
+
+        resultFrame.add(panel);
         resultFrame.setVisible(true);
     }
+
     
     
 

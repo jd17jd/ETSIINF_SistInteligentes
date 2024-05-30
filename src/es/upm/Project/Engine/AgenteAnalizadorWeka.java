@@ -1,13 +1,10 @@
 package es.upm.Project.Engine;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-//import es.upm.Project.Engine.AnalizadorWeka.CyclicBehaviourAnalisisWEKA;
 import jade.content.lang.sl.SLCodec;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -38,7 +35,7 @@ public class AgenteAnalizadorWeka extends Agent {
     @SuppressWarnings("deprecation")
 	private static ACLMessage msg1 = new ACLMessage();
 	
-	private static final MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
+	//private static final MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
 	private static final MessageTemplate mt1 = MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
 			MessageTemplate.MatchPerformative(ACLMessage.INFORM));
 
@@ -74,8 +71,9 @@ public class AgenteAnalizadorWeka extends Agent {
 		addBehaviour(comportamientoEntrenarModelo);
 	}
 
+	//Comportamiento que obtiene los datos que el usuario introduce y realiza el análisis.
+	//Envia el analisis realizado con el modelo entrenado y los datos y envía el resultado al AgenteUsuario para que lo muestre
 	public class CyclicBehaviourAnalisisWEKA extends CyclicBehaviour {
-
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -104,6 +102,8 @@ public class AgenteAnalizadorWeka extends Agent {
 	                    attributes.add(new Attribute("insulina"));
 	                    attributes.add(new Attribute("masa_muscular"));
 	                    attributes.add(new Attribute("pedigri"));
+	                    
+	                    //valores posibles de resultado (labels)
 	                    ArrayList<String> classValues = new ArrayList<>(Arrays.asList("tested_negative", "tested_positive"));
 	                    attributes.add(new Attribute("class", classValues));
 
@@ -132,7 +132,7 @@ public class AgenteAnalizadorWeka extends Agent {
 						ResultadoAnalisis resultadoAnalisis = new ResultadoAnalisis();
 						resultadoAnalisis.setResultado(resultadoClasificacion);
 
-						// Serializar el objeto ResultadoAnalisis y enviarlo de vuelta al AgenteUsuario
+						// 'Serializar' el objeto ResultadoAnalisis y enviarlo de vuelta al AgenteUsuario
 						ACLMessage reply = msg.createReply();
 						reply.setPerformative(ACLMessage.INFORM);
 						reply.setContent(resultadoClasificacion);
@@ -176,18 +176,17 @@ public class AgenteAnalizadorWeka extends Agent {
 	            clasificadorLogistico = new Logistic();
 	            clasificadorLogistico.buildClassifier(data); //Entrenar el Clasificador (OBTENGO EL MODELO)
 	            
-	            Evaluation evalLogistica = new Evaluation(trainData); 
+	            Evaluation evalLogistica = new Evaluation(trainData);
 	            evalLogistica.evaluateModel(clasificadorLogistico, testData); //evaluamos el modelo con los datos de test
 	            
 				((AgenteAnalizadorWeka) myAgent).resultado.setClasificadorLogistic(clasificadorLogistico);
 				((AgenteAnalizadorWeka) myAgent).resultado.setEval(evalLogistica);
 				((AgenteAnalizadorWeka) myAgent).resultado.setData(data);
 				
-//				ESTO LO DEBERIAMOS QUITAR PORQUE EL MOSTRAR DATOS ES OTRO COMPORTAMIENTO
-//				Esto no lo devolvemos porque es lo que hace el mostrarResultados en la interfaz
-				System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
-						+ ((AgenteAnalizadorWeka) myAgent).resultado.resultadosToString());
-				        //+ ((AgenteAnalizadorWeka) myAgent).resultado.getClasificadorLogistic().toString());
+				System.out.println("Evaluación del dataset: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString());
+				
+//				System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
+//						+ ((AgenteAnalizadorWeka) myAgent).resultado.resultadosToString());
 
 				msg1.setContentObject((Serializable) ((AgenteAnalizadorWeka) myAgent).resultado);
 

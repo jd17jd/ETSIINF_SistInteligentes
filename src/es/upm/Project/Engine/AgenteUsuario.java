@@ -1,10 +1,6 @@
 package es.upm.Project.Engine;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-
 import es.upm.Project.GUI.GuiInitializer;
-import es.upm.Project.GUI.MainWindow;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -13,25 +9,27 @@ import jade.lang.acl.MessageTemplate;
 public class AgenteUsuario extends Agent {
 	
 	private static final long serialVersionUID = 1L;
+	
+	//inicializador de la interfaz grafica
 	private GuiInitializer principal;
+	
+	//atributos que tienen datos que usuario introduce por la interfaz
 	private int embarazos, edad, nivel_glucosa, presion_arterial, pliegue_cutaneo, insulina;
 	private double masa_muscular, pedigri;
 	
+	//configuramos el agenteUsuario con sus comportamientos
 	protected void setup() {
-		
 		// Añadimos los comportamientos
-		
 			// 1. ComportamientoX --> Solcitamos analisis al analizador
 		addBehaviour(new CyclicBehaviourSolicitarAnalisis());
-		
 			// 2. ComportamientoY --> Mostramos resultados post-analisis
 		addBehaviour(new CyclicBehaviourMostrarResultados());
-		
 			// 3. ComportamientoZ --> Lanzamos la interfaz en otro hilo
 		principal = new GuiInitializer(this.getLocalName(), this);
 		principal.run();
 	}
 	
+	//metemos valores que usuario introduce en interfaz gráfica en atributos
 	public void setAtributes(int argEmbarazos, int argGlucosa, int argPresion, int argGrosor, int argInsulina, double argIndice, double argFuncion, int argEdad) {
 		this.edad = argEdad;
 		this.embarazos = argEmbarazos;
@@ -41,11 +39,10 @@ public class AgenteUsuario extends Agent {
 		this.pedigri = argFuncion;
 		this.pliegue_cutaneo = argGrosor;
 		this.presion_arterial = argPresion;
-		
 	}
 	
+	
 	public class CyclicBehaviourSolicitarAnalisis extends CyclicBehaviour {
-
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -67,33 +64,30 @@ public class AgenteUsuario extends Agent {
 				datosAnalizar.setPresion_arterial(presion_arterial);
 				
 				// Enviamos el mensaje de solicitud de Utils de clasificacion al AgenteAnalizador
-				
 				// Enviamos al agente que tenga registrado el servicio "analisis"
 				// Enviamos el contenido el objeto a analizar
-				// Interactua con el directory facilitator de Jave para buscar un servicio "analisis" a consumir
+				// Interactua con el directory facilitator de Jade para buscar un servicio "analisis" a consumir
 				
 				Utils.enviarMensaje(this.myAgent, "analisis", datosAnalizar);
-			
+
 			} catch (Exception e) {
+				System.err.println("Error en CyclicBehaviourSolicitarAnalisis: " + e.getMessage());
 				e.printStackTrace();
 			}
-		}
-		
+		}		
 	}
 	
-	 public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
+	
+	public class CyclicBehaviourMostrarResultados extends CyclicBehaviour {
+	       private static final long serialVersionUID = 1L;
+	       
+	       @Override
+	       public void action() {
+	    	   // Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
+	    	   ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
 
-	        private static final long serialVersionUID = 1L;
-
-			@Override
-	        public void action() {
-	            // Creamos un mensaje de espera bloqueante para esperar un mensaje de tipo INFORM
-	            ACLMessage msg1 = this.myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
-
-	            try {
+	    	   try {
 	                // Recibimos los datos ya analizados, que vienen en el mensaje del Agente AnalizadorWeka como un objeto ResultadoAnalisis 
-	                //ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(msg1.getByteSequenceContent()));
-	                //ResultadoAnalisis resultadoAnalisis = (ResultadoAnalisis) ois.readObject();
 	                
 	                // Convertimos los resultados a string
 	                //String resultados = resultadoAnalisis.resultadosToString();
@@ -101,7 +95,6 @@ public class AgenteUsuario extends Agent {
 	                // Mostramos los resultados en la interfaz gráfica
 	                AgenteUsuario agente = (AgenteUsuario) this.myAgent;
 	                
-	                //Esto no lo hace
 	                agente.getPrincipal().getMainWindow().mostrarResultados(res);
 	            } catch (Exception e) {
 	                System.err.println("Error en CyclicBehaviourMostrarResultados: " + e.getMessage());
