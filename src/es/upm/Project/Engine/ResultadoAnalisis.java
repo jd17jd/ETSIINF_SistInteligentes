@@ -1,7 +1,11 @@
 package es.upm.Project.Engine;
 
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.functions.Logistic;
+import weka.classifiers.functions.SMO;
+import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
 import java.io.Serializable;
 
@@ -11,7 +15,9 @@ public class ResultadoAnalisis implements Serializable {
     private Instances data;
     private Evaluation eval;
     private Evaluation[] evaluations;
-    private Logistic clasificadorLogistic;
+    //private Logistic clasificadorLogistic;
+    //private J48 clasificadorLogistic;
+    private NaiveBayes clasificadorLogistic;
     private String resultadoClasificacion; // Nuevo atributo para almacenar el resultado de la clasificación
 
     // Constructor
@@ -48,11 +54,24 @@ public class ResultadoAnalisis implements Serializable {
         }
     }
 
-    public Logistic getClasificadorLogistic() {
+//    public Logistic getClasificadorLogistic() {
+//        return clasificadorLogistic;
+//    }
+//    public J48 getClasificadorLogistic() {
+//        return clasificadorLogistic;
+//    }
+    
+    public NaiveBayes getClasificadorLogistic() {
         return clasificadorLogistic;
     }
 
-    public void setClasificadorLogistic(Logistic clasificadorLogistic) {
+//    public void setClasificadorLogistic(Logistic clasificadorLogistic) {
+//        this.clasificadorLogistic = clasificadorLogistic;
+//    }
+//    public void setClasificadorLogistic(J48 clasificadorLogistic) {
+//        this.clasificadorLogistic = clasificadorLogistic;
+//    }
+    public void setClasificadorLogistic(NaiveBayes clasificadorLogistic) {
         this.clasificadorLogistic = clasificadorLogistic;
     }
 

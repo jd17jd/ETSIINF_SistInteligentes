@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import com.formdev.flatlaf.FlatLightLaf;
 import es.upm.Project.Engine.AgenteUsuario;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,49 +18,73 @@ public class MainWindow extends JFrame {
     
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JFrame resultFrame;
     private boolean check[] = new boolean [8]; //numero de atributos a checkear
     
-    //Método para mostrar los resultados del análisis    
+ // Método para mostrar los resultados del análisis    
     public void mostrarResultados(String resultados) {
+    	System.out.println("Mostramos resultados");
         
-        String mensaje;
-        if (resultados.equals("tested_negative")) {
-            mensaje = "El resultado procesado es <b>NEGATIVO</b> con un 81.25% de certeza.";
-        } else {
-            mensaje = "El resultado procesado es <b>POSITIVO</b> con un 81.25% de certeza.";
-        }
-
-
-        JEditorPane textPane = new JEditorPane("text/html", "<html><body style='font-family: Arial; font-size: 18px; text-align: center;'>" + mensaje + "</body></html>");
-        textPane.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textPane);
-        scrollPane.setPreferredSize(new Dimension(450, 300));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JFrame resultFrame = new JFrame("Resultados del Análisis");
+        resultFrame = new JFrame("Resultados del Análisis");
         resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        resultFrame.setSize(500, 400);
+        resultFrame.setSize(350, 325);
+        resultFrame.setResizable(false);
+        resultFrame.setBackground(Color.white);
         resultFrame.setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        JLabel titleLabel = new JLabel("Resultados del Análisis");
-        titleLabel.setFont(new Font("Impact", Font.BOLD, 22));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-
-        JPanel textPanel = new JPanel(new BorderLayout());
-        textPanel.add(scrollPane, BorderLayout.CENTER);
-        textPanel.setBorder(BorderFactory.createLineBorder(new Color(58, 134, 254), 2));
-
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(textPanel, BorderLayout.CENTER);
-
-        resultFrame.add(panel);
         resultFrame.setVisible(true);
-    }
+        JPanel resultPanel = new JPanel();
+        resultPanel.setSize(350,325);
+        resultPanel.setLayout(null);
+        resultFrame.setContentPane(resultPanel);
+        resultPanel.setBackground(Color.WHITE);
+        
+        ImageIcon imageIcon = new ImageIcon("resources/check.png");
+        Image originalImage = imageIcon.getImage();
+        int newWidth = 50;
+        int newHeight = 50;
+        Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledIcon);
+        imageLabel.setBounds(155, 30, 50, 50);
+        imageLabel.setSize(50, 50);
+        resultPanel.add(imageLabel);
 
+        Font arial1 = new Font("Arial", Font.PLAIN, 16);
+        String texto1 = "Análisis realizado correctamente.\nEl resultado es:";
+        JTextArea texto1Area = new JTextArea(texto1);
+        texto1Area.setFont(arial1);
+        texto1Area.setBounds(40, 100, 330, 50);    
+        texto1Area.setLineWrap(true);
+        texto1Area.setWrapStyleWord(true);
+        texto1Area.setEditable(false);
+        texto1Area.setOpaque(false);
+        texto1Area.setFocusable(false);
+        resultPanel.add(texto1Area);
+        
+        Font arial2 = new Font("Arial", Font.BOLD, 18);
+        String res = resultados.equals("tested_positive") ? "Positivo" : "Negativo";
+        JTextArea resArea = new JTextArea(res);
+        resArea.setFont(arial2);
+        resArea.setBounds(140, 165, 100, 50);
+        resArea.setEditable(false);
+        resArea.setOpaque(false);
+        resArea.setFocusable(false);
+        resultPanel.add(resArea);
+        
+        
+        Font arial3 = new Font("Arial", Font.BOLD, 15);
+        JFrameBoton cerrar = new JFrameBoton("Cerrar", new Color(58,134,254), arial3, Color.WHITE);
+        cerrar.setBounds(140, 225, 80, 40);
+        cerrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resultFrame.dispose();
+                resultFrame = null;
+            }
+        });
+        resultPanel.add(cerrar);
+        resultFrame.repaint();
+    }
     
     
 
@@ -72,6 +97,9 @@ public class MainWindow extends JFrame {
                         "¿Está seguro de que quiere salir?", "Salir",
                         2, JOptionPane.QUESTION_MESSAGE, null, opciones, "No");
                 if (selec == 0) {
+                	if(resultFrame != null) {
+                		resultFrame.dispose();
+                	}
                     dispose();
                     agente.doDelete();
                 }
@@ -458,9 +486,7 @@ public class MainWindow extends JFrame {
                 
                 //Llama al método del agente con los datos
                 agente.setAtributes(argEmbarazos, argGlucosa, argPresion, argGrosor, argInsulina, argIndice, argFuncion, argEdad);
-                
                 agente.doWake();
-                //dispose();
             }
         });
         btnEnviar.setBounds(192, 500, 115, 40);
@@ -468,14 +494,17 @@ public class MainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-    	
-    	//FlatLightLaf.setup();
+    	FlatLightLaf.setup();
     	Color arrowColor = new Color(58,134,254);
     	UIManager.put("Spinner.buttonPressedArrowColor", arrowColor.darker());
     	UIManager.put("Spinner.buttonHoverArrowColor", arrowColor);
     	UIManager.put("Spinner.buttonArrowColor", new Color(43,43,43));
         UIManager.put("Spinner.buttonBackground", Color.WHITE);
-        
+
+        MainWindow mainWindow = new MainWindow(null);
+        mainWindow.setVisible(true);
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setSize(500, 600);
     }
     
 }

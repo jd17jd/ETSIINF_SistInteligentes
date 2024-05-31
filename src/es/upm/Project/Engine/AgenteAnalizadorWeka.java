@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+
 import jade.content.lang.sl.SLCodec;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -15,8 +17,12 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.functions.Logistic;
+import weka.classifiers.functions.SMO;
+import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -27,7 +33,9 @@ public class AgenteAnalizadorWeka extends Agent {
 	private static final long serialVersionUID = 1L;
 	protected ResultadoAnalisis resultado;
 	protected Instances receivedData; // Variable para almacenar los datos recibidos
-	protected Logistic clasificadorLogistico; // Variable para almacenar el clasificador entrenado
+	//protected Logistic clasificadorLogistico; // Variable para almacenar el clasificador entrenado
+	//protected J48 clasificadorLogistico;
+	protected NaiveBayes clasificadorLogistico;
 	
 	protected CyclicBehaviourAnalisisWEKA comportamientoWEKA = new CyclicBehaviourAnalisisWEKA();
     protected ComportamientoEntrenarModelo comportamientoEntrenarModelo = new ComportamientoEntrenarModelo(); // Añadimos este comportamiento
@@ -163,30 +171,33 @@ public class AgenteAnalizadorWeka extends Agent {
 	    public void action() {
 	        try {
 	            System.out.println("Entrenando modelo Logístico...");
+	            
 	            Instances data = new Instances(new BufferedReader(new FileReader("resources/diabetes.arff")));
 	            
 	            data.setClassIndex(data.numAttributes() - 1);
 				
 				// Dividir los datos en entrenamiento y prueba (por ejemplo, 75% entrenamiento, 25% prueba)
-	            int trainSize = (int) Math.round(data.numInstances() * 0.75);
+	            int trainSize = (int) Math.round(data.numInstances() * 0.70);
 	            int testSize = data.numInstances() - trainSize;
 	            Instances trainData = new Instances(data, 0, trainSize);
 	            Instances testData = new Instances(data, trainSize, testSize);
 	            
-	            clasificadorLogistico = new Logistic();
+	            //clasificadorLogistico = new Logistic();
+	            //clasificadorLogistico = new J48();
+	            clasificadorLogistico = new NaiveBayes();
 	            clasificadorLogistico.buildClassifier(data); //Entrenar el Clasificador (OBTENGO EL MODELO)
 	            
 	            Evaluation evalLogistica = new Evaluation(trainData);
 	            evalLogistica.evaluateModel(clasificadorLogistico, testData); //evaluamos el modelo con los datos de test
 	            
-				((AgenteAnalizadorWeka) myAgent).resultado.setClasificadorLogistic(clasificadorLogistico);
+	            ((AgenteAnalizadorWeka) myAgent).resultado.setClasificadorLogistic(clasificadorLogistico);
 				((AgenteAnalizadorWeka) myAgent).resultado.setEval(evalLogistica);
 				((AgenteAnalizadorWeka) myAgent).resultado.setData(data);
 				
 				System.out.println("Evaluación del dataset: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString());
 				
-//				System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
-//						+ ((AgenteAnalizadorWeka) myAgent).resultado.resultadosToString());
+				//System.out.println("Evaluación: " + ((AgenteAnalizadorWeka) myAgent).resultado.getEval().toSummaryString() + "\n\n"
+				//		+ ((AgenteAnalizadorWeka) myAgent).resultado.resultadosToString());
 
 				msg1.setContentObject((Serializable) ((AgenteAnalizadorWeka) myAgent).resultado);
 

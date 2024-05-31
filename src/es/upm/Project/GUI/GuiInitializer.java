@@ -1,6 +1,7 @@
 package es.upm.Project.GUI;
 import java.awt.Color;
 import javax.swing.UIManager;
+import com.formdev.flatlaf.FlatLightLaf;
 import es.upm.Project.Engine.AgenteUsuario;
 
 public class GuiInitializer implements Runnable {
@@ -20,6 +21,7 @@ public class GuiInitializer implements Runnable {
     @Override
     public void run() {
         try {
+        //FlatLightLaf.setup();
             Color arrowColor = new Color(58,134,254);
             UIManager.put("Spinner.buttonPressedArrowColor", arrowColor.darker());
             UIManager.put("Spinner.buttonHoverArrowColor", arrowColor);
