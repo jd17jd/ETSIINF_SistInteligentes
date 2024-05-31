@@ -1,0 +1,8 @@
+NOMBRE DEL PROYECTO: Modelo Predictivo para detección temprana de diabetes en pacientes.
+
+AUTORES:
+Gonzalo Álvarez García, 04866194S
+Celia Hirt Quiroga, 05468284B
+Pablo Esgueva Moro, 02793691L
+Juan Diego Sanz Guevara, 47291606H
+Stefani Dawn Scott Pernia, 43222044F
